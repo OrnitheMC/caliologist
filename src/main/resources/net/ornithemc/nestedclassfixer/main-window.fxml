@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.ornithemc.nestedclassfixer.MainWindowController">
   <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
   </columnConstraints>
@@ -16,6 +16,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenButton" text="Open Jar..." />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
