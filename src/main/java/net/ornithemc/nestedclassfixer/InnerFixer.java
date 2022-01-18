@@ -9,16 +9,24 @@ import java.io.IOException;
 
 public class InnerFixer extends Application
 {
+    private Scene scene;
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InnerFixer.class.getResource("main-window.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        fxmlLoader.setController(new MainWindowController(this));
+
+        this.scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Nested Class Fixer");
         stage.setScene(scene);
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
+    public Scene getScene() {
+        return scene;
     }
 }
