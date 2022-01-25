@@ -1,8 +1,10 @@
 package net.ornithemc.nestedclassfixer;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
+import net.ornithemc.nestedclassfixer.jar.JarAnalyzer;
 
 import java.io.File;
 
@@ -23,6 +25,11 @@ public class MainWindowController
 
         if (file == null) return;
 
-        JarAnalyzer analyzer = new  JarAnalyzer(file);
+        JarAnalyzer analyzer = new JarAnalyzer(file);
+    }
+
+    @FXML
+    private void handleCloseButton(ActionEvent event) {
+        Platform.exit();
     }
 }
