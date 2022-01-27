@@ -24,12 +24,12 @@ public class VariableNode extends Node
     }
 
     @Override
-    protected boolean isValidChild(Node node) {
-        return false;
+    protected boolean isValidParent(Node node) {
+        return node != null && node.isMethod();
     }
 
     @Override
-    public String getIdentifier() {
-        return getParent().getIdentifier() + "@" + getName();
+    protected boolean isValidChild(Node node) {
+        return false;
     }
 }

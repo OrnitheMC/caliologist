@@ -85,6 +85,14 @@ public abstract class Node
         return parent;
     }
 
+    public void setParent(Node node) {
+        if (isValidParent(node)) {
+            parent = node;
+        }
+    }
+
+    protected abstract boolean isValidParent(Node node);
+
     public Set<Node> getChildren() {
         return Collections.unmodifiableSet(children);
     }
@@ -95,7 +103,7 @@ public abstract class Node
 
     protected abstract boolean isValidChild(Node node);
 
-    public boolean removeChild(Node node) {
+    protected boolean removeChild(Node node) {
         return children.remove(node);
     }
 
@@ -199,13 +207,17 @@ public abstract class Node
         return name;
     }
 
+    public void setName(String name) {
+        if (name != null && isValidName(name)) {
+            this.name = name;
+        }
+    }
+
+    protected boolean isValidName(String name) {
+        return true; // TODO: test for keywords and invalid characters
+    }
+
     public String getSignature() {
         return signature;
     }
-
-    /**
-     * Returns a string that uniquely identifies this node.
-     */
-    public abstract String getIdentifier();
-
 }

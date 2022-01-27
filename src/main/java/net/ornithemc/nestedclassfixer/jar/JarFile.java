@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
+import net.ornithemc.nestedclassfixer.jar.node.Node;
 import net.ornithemc.nestedclassfixer.jar.node.UnknownClassNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoClassNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
@@ -17,7 +18,6 @@ public class JarFile
 {
     private final File file;
 
-    private final Map<String, ProtoClassNode> protoClasses = new HashMap<>();
     private final Map<String, ClassNode> classes = new HashMap<>();
 
     public JarFile(File jarFile) {
@@ -28,26 +28,53 @@ public class JarFile
         return file;
     }
 
-    public ProtoClassNode getProtoClass(String name) {
-        return protoClasses.get(name);
-    }
-
     public Collection<ClassNode> getClasses() {
         return classes.values();
     }
 
+    /**
+     * Retrieve a class node from the name of its proto class
+     */
     public ClassNode getClass(String name) {
         return classes.get(name);
+    }
+
+    public void addInnerClass(ClassNode outer, ClassNode inner) {
+        Node parent = inner.getParent();
+
+        if (parent != null) {
+            parent.asClass().removeNestedClass(inner);
+        }
+
+        if (outer.addInnerClass(inner)) {
+            inner.setParent(outer);
+        }
+    }
+
+    public void addAnonymousClass(ClassNode outer, ClassNode inner) {
+        Node parent = inner.getParent();
+
+        if (parent != null) {
+            parent.asClass().removeNestedClass(inner);
+        }
+
+        if (outer.addAnonymousClass(inner)) {
+            inner.setParent(outer);
+        }
+    }
+
+    public void removeNestedClass(ClassNode outer, ClassNode inner) {
+        outer.removeNestedClass(inner);
+        inner.setParent(null);
+        inner.setSimpleName(null);
     }
 
     public void construct(Set<ProtoClassNode> protoClasses, Set<ProtoFieldNode> protoFields,
             Set<ProtoMethodNode> protoMethods, Set<ProtoVariableNode> protoVariables) {
         // first pass - creating class nodes
         for (ProtoClassNode protoClass : protoClasses) {
-            this.protoClasses.put(protoClass.getName(), protoClass);
-
             ClassNode clazz = protoClass.construct(this);
-            classes.put(clazz.getIdentifier(), clazz);
+            classes.put(protoClass.getName(), clazz);
         }
 
         // second pass - adding references to the super class and interfaces

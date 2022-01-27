@@ -31,13 +31,13 @@ public class MethodNode extends Node
     }
 
     @Override
-    protected boolean isValidChild(Node node) {
-        return node instanceof VariableNode;
+    protected boolean isValidParent(Node node) {
+        return node != null && node.isClass();
     }
 
     @Override
-    public String getIdentifier() {
-        return getParent().getIdentifier() + "#" + getName() + descriptor;
+    protected boolean isValidChild(Node node) {
+        return node instanceof VariableNode;
     }
 
     public TypeDescriptor getDescriptor() {
