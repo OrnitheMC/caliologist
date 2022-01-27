@@ -3,17 +3,21 @@ package net.ornithemc.nestedclassfixer.jar.node.proto;
 import net.ornithemc.nestedclassfixer.jar.JarFile;
 import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
 import net.ornithemc.nestedclassfixer.jar.node.MethodNode;
+import net.ornithemc.nestedclassfixer.jar.node.UnknownClassNode;
+import net.ornithemc.nestedclassfixer.jar.node.desc.TypeDescriptor;
 
 public class ProtoMethodNode extends ProtoNode
 {
     private final String desc;
     private final String[] exceptions;
 
+    private MethodNode method;
+
     public ProtoMethodNode(ProtoClassNode parent, int access, String name, String desc, String signature, String[] exceptions) {
         super(parent, access, name, signature);
 
         this.desc = desc;
-        this.exceptions = exceptions;
+        this.exceptions = (exceptions == null) ? new String[0] : exceptions;
     }
 
     @Override
@@ -28,10 +32,28 @@ public class ProtoMethodNode extends ProtoNode
 
     @Override
     public MethodNode construct(JarFile jar) {
-        ProtoClassNode protoParent = parent.asClass();
-        ClassNode parent = jar.getClass(protoParent.name);
+        if (method == null) {
+            ProtoClassNode protoParent = parent.asClass();
+            ClassNode parent = protoParent.construct(jar);
 
-        return new MethodNode(this, parent, access, name, desc, signature, exceptions);
+            TypeDescriptor descriptor = TypeDescriptor.construct(desc, jar);
+            ClassNode[] exceptionTypes = new ClassNode[exceptions.length];
+
+            for (int i = 0; i < exceptions.length; i++) {
+                String name = exceptions[i];
+                ClassNode exception = jar.getClass(name);
+
+                if (exception == null) {
+                    exception = new UnknownClassNode(name);
+                }
+
+                exceptionTypes[i] = exception;
+            }
+
+            method = new MethodNode(this, parent, access, name, signature, descriptor, exceptionTypes);
+        }
+
+        return method;
     }
 
     public String getDescriptor() {

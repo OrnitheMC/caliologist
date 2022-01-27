@@ -3,11 +3,14 @@ package net.ornithemc.nestedclassfixer.jar.node.proto;
 import net.ornithemc.nestedclassfixer.jar.JarFile;
 import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
 import net.ornithemc.nestedclassfixer.jar.node.FieldNode;
+import net.ornithemc.nestedclassfixer.jar.node.desc.TypeDescriptor;
 
 public class ProtoFieldNode extends ProtoNode
 {
     private final String desc;
     private final Object value;
+
+    private FieldNode field;
 
     public ProtoFieldNode(ProtoClassNode parent, int access, String name, String desc, String signature, Object value) {
         super(parent, access, name, signature);
@@ -28,10 +31,15 @@ public class ProtoFieldNode extends ProtoNode
 
     @Override
     public FieldNode construct(JarFile jar) {
-        ProtoClassNode protoParent = parent.asClass();
-        ClassNode parent = jar.getClass(protoParent.name);
+        if (field == null) {
+            ProtoClassNode protoParent = parent.asClass();
+            ClassNode parent = protoParent.construct(jar);
+            TypeDescriptor descriptor = TypeDescriptor.construct(desc, jar);
 
-        return new FieldNode(this, parent, access, name, desc, signature, value);
+            field = new FieldNode(this, parent, access, name, signature, descriptor, value);
+        }
+
+        return field;
     }
 
     public String getDescriptor() {

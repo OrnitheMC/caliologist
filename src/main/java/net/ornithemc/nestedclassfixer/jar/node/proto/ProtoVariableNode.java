@@ -6,6 +6,8 @@ import net.ornithemc.nestedclassfixer.jar.node.VariableNode;
 
 public class ProtoVariableNode extends ProtoNode
 {
+    private VariableNode variable;
+
     public ProtoVariableNode(ProtoMethodNode parent, int access, String name, String signature) {
         super(parent, access, name, signature);
     }
@@ -22,9 +24,13 @@ public class ProtoVariableNode extends ProtoNode
 
     @Override
     public VariableNode construct(JarFile jar) {
-        ProtoMethodNode protoParent = parent.asMethod();
-        MethodNode parent = jar.getMethod(protoParent.signature);
+        if (variable == null) {
+            ProtoMethodNode protoParent = parent.asMethod();
+            MethodNode parent = protoParent.construct(jar);
 
-        return new VariableNode(this, parent, access, name, signature);
+            variable = new VariableNode(this, parent, access, name, signature);
+        }
+
+        return variable;
     }
 }

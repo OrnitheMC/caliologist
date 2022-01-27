@@ -1,11 +1,16 @@
 package net.ornithemc.nestedclassfixer.jar.node;
 
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoNode;
+import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoVariableNode;
 
 public class VariableNode extends Node
 {
-    public VariableNode(ProtoNode proto, Node parent, int access, String name, String signature) {
+    public VariableNode(ProtoVariableNode proto, Node parent, int access, String name, String signature) {
         super(proto, parent, access, name, signature);
+    }
+
+    @Override
+    public ProtoVariableNode getProto() {
+        return proto.asVariable();
     }
 
     @Override

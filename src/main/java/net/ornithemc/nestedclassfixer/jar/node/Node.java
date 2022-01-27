@@ -11,7 +11,7 @@ import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoNode;
 
 public abstract class Node
 {
-    private final ProtoNode proto;
+    protected final ProtoNode proto;
 
     private Node parent;
     private Set<Node> children;
@@ -29,6 +29,10 @@ public abstract class Node
         this.access = access;
         this.name = name;
         this.signature = signature;
+
+        if (this.parent != null) {
+            this.parent.addChild(this);
+        }
     }
 
     @Override
@@ -79,10 +83,6 @@ public abstract class Node
 
     public Node getParent() {
         return parent;
-    }
-
-    public void setParent(Node node) {
-        this.parent = node;
     }
 
     public Set<Node> getChildren() {

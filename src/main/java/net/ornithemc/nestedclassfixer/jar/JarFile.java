@@ -7,24 +7,18 @@ import java.util.Map;
 import java.util.Set;
 
 import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.FieldNode;
-import net.ornithemc.nestedclassfixer.jar.node.MethodNode;
 import net.ornithemc.nestedclassfixer.jar.node.UnknownClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.VariableNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoClassNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoMethodNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoNode;
 import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoVariableNode;
 
 public class JarFile
 {
     private final File file;
-    
+
+    private final Map<String, ProtoClassNode> protoClasses = new HashMap<>();
     private final Map<String, ClassNode> classes = new HashMap<>();
-    private final Map<String, FieldNode> fields = new HashMap<>();
-    private final Map<String, MethodNode> methods = new HashMap<>();
-    private final Map<String, VariableNode> variables = new HashMap<>();
 
     public JarFile(File jarFile) {
         this.file = jarFile;
@@ -32,6 +26,10 @@ public class JarFile
 
     public File getFile() {
         return file;
+    }
+
+    public ProtoClassNode getProtoClass(String name) {
+        return protoClasses.get(name);
     }
 
     public Collection<ClassNode> getClasses() {
@@ -42,34 +40,23 @@ public class JarFile
         return classes.get(name);
     }
 
-    public Collection<MethodNode> getMethods() {
-        return methods.values();
-    }
-
-    public MethodNode getMethod(String signature) {
-        return methods.get(signature);
-    }
-
-    public void construct(Set<ProtoClassNode> protoClasses, Set<ProtoFieldNode> protoFields, Set<ProtoMethodNode> protoMethods, Set<ProtoVariableNode> protoVariables) {
-        // firs pass - creating class nodes
+    public void construct(Set<ProtoClassNode> protoClasses, Set<ProtoFieldNode> protoFields,
+            Set<ProtoMethodNode> protoMethods, Set<ProtoVariableNode> protoVariables) {
+        // first pass - creating class nodes
         for (ProtoClassNode protoClass : protoClasses) {
-            ClassNode clazz = protoClass.construct(this);
+            this.protoClasses.put(protoClass.getName(), protoClass);
 
-            if (clazz != null) {
-                classes.put(clazz.getIdentifier(), clazz);
-            }
+            ClassNode clazz = protoClass.construct(this);
+            classes.put(clazz.getIdentifier(), clazz);
         }
 
-        // second pass - adding references to the parent class, super class, and interfaces
+        // second pass - adding references to the super class and interfaces
         for (ClassNode clazz : classes.values()) {
             ProtoClassNode protoClass = clazz.getProto();
-            ProtoNode protoParent = protoClass.getParent();
 
-            String parentName = protoParent == null ? "" : protoParent.getName();
             String superName = protoClass.getSuperName();
             String[] interfaceNames = protoClass.getInterfaces();
 
-            ClassNode parent = classes.get(parentName);
             ClassNode superClass = classes.get(superName);
             ClassNode[] interfaces = new ClassNode[interfaceNames.length];
 
@@ -77,40 +64,30 @@ public class JarFile
                 superClass = new UnknownClassNode(superName);
             }
             for (int i = 0; i < interfaces.length; i++) {
-                interfaces[i] = classes.get(interfaceNames[i]);
+                String interfaceName = interfaceNames[i];
+                ClassNode interf = classes.get(interfaceName);
+
+                if (interf == null) {
+                    interf = new UnknownClassNode(interfaceName);
+                }
+
+                interfaces[i] = interf;
             }
 
-            clazz.updateAncestry(parent, superClass, interfaces);
+            clazz.updateAncestry(superClass, interfaces);
         }
 
         for (ProtoFieldNode protoField : protoFields) {
-            FieldNode field = protoField.construct(this);
-
-            if (field != null) {
-                fields.put(field.getIdentifier(), field);
-            }
+            protoField.construct(this);
         }
 
-        // first pass - creating method nodes
         for (ProtoMethodNode protoMethod : protoMethods) {
-            MethodNode method = protoMethod.construct(this);
-
-            if (method != null) {
-                methods.put(method.getIdentifier(), method);
-            }
+            protoMethod.construct(this);
+            // TODO: add references to variables
         }
 
         for (ProtoVariableNode protoVariable : protoVariables) {
-            VariableNode variable = protoVariable.construct(this);
-
-            if (variable != null) {
-                variables.put(variable.getIdentifier(), variable);
-            }
-        }
-
-        // second pass - adding references to variables
-        for (MethodNode method : methods.values()) {
-            // TODO: add references to variables
+            protoVariable.construct(this);
         }
     }
 }
