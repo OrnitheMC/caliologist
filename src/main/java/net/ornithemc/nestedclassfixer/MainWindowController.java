@@ -4,15 +4,16 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
-import net.ornithemc.nestedclassfixer.jar.JarAnalyzer;
+
+import net.ornithemc.nestedclassfixer.jar.NestedClassFixer;
 
 import java.io.File;
 
 public class MainWindowController
 {
-    private final InnerFixer mainApplication;
+    private final Main mainApplication;
 
-    public MainWindowController(InnerFixer mainApplication) {
+    public MainWindowController(Main mainApplication) {
         this.mainApplication = mainApplication;
     }
 
@@ -25,7 +26,10 @@ public class MainWindowController
 
         if (file == null) return;
 
-        JarAnalyzer analyzer = new JarAnalyzer(file);
+        NestedClassFixer fixer = new NestedClassFixer(file);
+
+        fixer.readJar();
+        fixer.findNestedClassCandidates();
     }
 
     @FXML

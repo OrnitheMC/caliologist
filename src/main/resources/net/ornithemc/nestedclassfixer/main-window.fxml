@@ -5,19 +5,19 @@
 
 <GridPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-      <ColumnConstraints hgrow="ALWAYS" percentWidth="25.0" />
-      <ColumnConstraints hgrow="ALWAYS" />
+    <ColumnConstraints hgrow="ALWAYS" percentWidth="25.0" />
+    <ColumnConstraints hgrow="ALWAYS" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints vgrow="NEVER" />
     <RowConstraints maxHeight="368.0" minHeight="10.0" prefHeight="172.0" vgrow="SOMETIMES" />
   </rowConstraints>
-   <children>
+    <children>
       <MenuBar GridPane.columnIndex="0" GridPane.columnSpan="2147483647">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenButton" text="Open Jar..." />
+              <MenuItem mnemonicParsing="false" onAction="#handleOpenButton" text="Open Jar..." />
               <MenuItem mnemonicParsing="false" onAction="#handleCloseButton" text="Close" />
             </items>
           </Menu>
@@ -34,5 +34,5 @@
         </menus>
       </MenuBar>
       <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-   </children>
+    </children>
 </GridPane>

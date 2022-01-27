@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'net.ornithemc.nestedclassfixer'
-    mainClass = 'net.ornithemc.nestedclassfixer.HelloApplication'
+    mainClass  = 'net.ornithemc.nestedclassfixer.Main'
 }
 
 javafx {

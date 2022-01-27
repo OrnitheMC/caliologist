@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class InnerFixer extends Application
+public class Main extends Application
 {
     private Scene scene;
 
@@ -17,7 +17,7 @@ public class InnerFixer extends Application
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(InnerFixer.class.getResource("main-window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-window.fxml"));
         fxmlLoader.setController(new MainWindowController(this));
 
         this.scene = new Scene(fxmlLoader.load(), 320, 240);
