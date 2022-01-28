@@ -9,6 +9,8 @@ public class ProtoClassNode extends ProtoNode
     private final String superName;
     private final String[] interfaces;
 
+    private ClassNode clazz;
+
     public ProtoClassNode(ProtoNode parent, int version, int access, String name, String signature, String superName, String[] interfaces) {
         super(parent, access, name, signature);
 
@@ -29,7 +31,18 @@ public class ProtoClassNode extends ProtoNode
 
     @Override
     public ClassNode construct(JarFile jar) {
-        return new ClassNode(this, access, name, signature);
+        if (clazz == null) {
+            ClassNode parentClass = null;
+
+            if (parent != null) {
+                ProtoClassNode protoParent = parent.asClass();
+                parentClass = protoParent.construct(jar);
+            }
+
+            clazz = new ClassNode(this, parentClass, access, name, signature);
+        }
+
+        return clazz;
     }
 
     public int getVersion() {
