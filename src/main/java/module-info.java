@@ -4,11 +4,11 @@ module net.ornithemc.nestedclassfixer {
     requires org.objectweb.asm;
 
 
-    opens net.ornithemc.nestedclassfixer to javafx.fxml;
-    exports net.ornithemc.nestedclassfixer;
-    exports net.ornithemc.nestedclassfixer.jar;
-    exports net.ornithemc.nestedclassfixer.jar.node;
-    exports net.ornithemc.nestedclassfixer.jar.node.desc;
-    exports net.ornithemc.nestedclassfixer.jar.node.proto;
-    opens net.ornithemc.nestedclassfixer.jar to javafx.fxml;
+    opens net.ornithemc.caliologist to javafx.fxml;
+    exports net.ornithemc.caliologist;
+    exports net.ornithemc.caliologist.jar;
+    exports net.ornithemc.caliologist.jar.node;
+    exports net.ornithemc.caliologist.jar.node.desc;
+    exports net.ornithemc.caliologist.jar.node.proto;
+    opens net.ornithemc.caliologist.jar to javafx.fxml;
 }

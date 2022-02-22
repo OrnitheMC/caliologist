@@ -1,10 +1,10 @@
-package net.ornithemc.nestedclassfixer.jar.node.desc;
+package net.ornithemc.caliologist.jar.node.desc;
 
 import org.objectweb.asm.Type;
 
-import net.ornithemc.nestedclassfixer.jar.JarFile;
-import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.UnknownClassNode;
+import net.ornithemc.caliologist.jar.JarFile;
+import net.ornithemc.caliologist.jar.node.ClassNode;
+import net.ornithemc.caliologist.jar.node.UnknownClassNode;
 
 public abstract class TypeDescriptor
 {

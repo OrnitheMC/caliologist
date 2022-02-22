@@ -1,7 +1,7 @@
-package net.ornithemc.nestedclassfixer.jar.node;
+package net.ornithemc.caliologist.jar.node;
 
-import net.ornithemc.nestedclassfixer.jar.node.desc.TypeDescriptor;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
+import net.ornithemc.caliologist.jar.node.desc.TypeDescriptor;
+import net.ornithemc.caliologist.jar.node.proto.ProtoFieldNode;
 
 public class FieldNode extends Node
 {

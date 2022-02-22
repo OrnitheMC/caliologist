@@ -1,6 +1,6 @@
-package net.ornithemc.nestedclassfixer.jar.node;
+package net.ornithemc.caliologist.jar.node;
 
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoVariableNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoVariableNode;
 
 public class VariableNode extends Node
 {

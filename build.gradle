@@ -23,8 +23,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'net.ornithemc.nestedclassfixer'
-    mainClass  = 'net.ornithemc.nestedclassfixer.Main'
+    mainModule = 'net.ornithemc.caliologist'
+    mainClass  = 'net.ornithemc.caliologist.Main'
 }
 
 javafx {

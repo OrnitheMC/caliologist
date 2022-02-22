@@ -1,6 +1,6 @@
-package net.ornithemc.nestedclassfixer.jar.node.desc;
+package net.ornithemc.caliologist.jar.node.desc;
 
-import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
+import net.ornithemc.caliologist.jar.node.ClassNode;
 
 public class ObjectTypeDescriptor extends TypeDescriptor
 {

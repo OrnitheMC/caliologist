@@ -1,9 +1,9 @@
-package net.ornithemc.nestedclassfixer.jar.node.proto;
+package net.ornithemc.caliologist.jar.node.proto;
 
-import net.ornithemc.nestedclassfixer.jar.JarFile;
-import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.FieldNode;
-import net.ornithemc.nestedclassfixer.jar.node.desc.TypeDescriptor;
+import net.ornithemc.caliologist.jar.JarFile;
+import net.ornithemc.caliologist.jar.node.ClassNode;
+import net.ornithemc.caliologist.jar.node.FieldNode;
+import net.ornithemc.caliologist.jar.node.desc.TypeDescriptor;
 
 public class ProtoFieldNode extends ProtoNode
 {
