@@ -1,7 +1,7 @@
-package net.ornithemc.nestedclassfixer.jar.node;
+package net.ornithemc.caliologist.jar.node;
 
-import net.ornithemc.nestedclassfixer.jar.node.desc.TypeDescriptor;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoMethodNode;
+import net.ornithemc.caliologist.jar.node.desc.TypeDescriptor;
+import net.ornithemc.caliologist.jar.node.proto.ProtoMethodNode;
 
 public class MethodNode extends Node
 {

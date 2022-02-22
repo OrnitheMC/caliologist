@@ -1,4 +1,4 @@
-package net.ornithemc.nestedclassfixer;
+package net.ornithemc.caliologist;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

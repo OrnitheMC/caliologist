@@ -1,4 +1,4 @@
-package net.ornithemc.nestedclassfixer.jar;
+package net.ornithemc.caliologist.jar;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,12 +14,12 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.Node;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoMethodNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoVariableNode;
+import net.ornithemc.caliologist.jar.node.ClassNode;
+import net.ornithemc.caliologist.jar.node.Node;
+import net.ornithemc.caliologist.jar.node.proto.ProtoClassNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoFieldNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoMethodNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoVariableNode;
 
 public class NestedClassFixer
 {
@@ -114,5 +114,6 @@ public class NestedClassFixer
                 }
             }
         }
+        System.out.println("Found " + nestedClasses + " nested classes");
     }
 }

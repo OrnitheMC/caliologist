@@ -1,4 +1,4 @@
-package net.ornithemc.nestedclassfixer.jar.node;
+package net.ornithemc.caliologist.jar.node;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.objectweb.asm.Opcodes;
 
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoNode;
 
 public abstract class Node
 {
@@ -37,7 +37,7 @@ public abstract class Node
 
     @Override
     public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Node) {
+        if (obj instanceof Node) {
             Node node = (Node)obj;
             return Objects.equals(parent, node.parent) && Objects.equals(name, node.name) && Objects.equals(signature, node.signature);
         }

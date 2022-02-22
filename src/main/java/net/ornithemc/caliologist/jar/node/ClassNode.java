@@ -1,13 +1,13 @@
-package net.ornithemc.nestedclassfixer.jar.node;
+package net.ornithemc.caliologist.jar.node;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoMethodNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoClassNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoFieldNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoMethodNode;
 
 public class ClassNode extends Node
 {

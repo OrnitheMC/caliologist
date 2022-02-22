@@ -1,9 +1,9 @@
-package net.ornithemc.nestedclassfixer.jar.node.proto;
+package net.ornithemc.caliologist.jar.node.proto;
 
 import java.util.Objects;
 
-import net.ornithemc.nestedclassfixer.jar.JarFile;
-import net.ornithemc.nestedclassfixer.jar.node.Node;
+import net.ornithemc.caliologist.jar.JarFile;
+import net.ornithemc.caliologist.jar.node.Node;
 
 public abstract class ProtoNode
 {

@@ -1,4 +1,4 @@
-package net.ornithemc.nestedclassfixer.jar.node.desc;
+package net.ornithemc.caliologist.jar.node.desc;
 
 public class ArrayTypeDescriptor extends TypeDescriptor
 {

@@ -1,4 +1,4 @@
-package net.ornithemc.nestedclassfixer.jar;
+package net.ornithemc.caliologist.jar;
 
 import java.io.File;
 import java.util.Collection;
@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import net.ornithemc.nestedclassfixer.jar.node.ClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.Node;
-import net.ornithemc.nestedclassfixer.jar.node.UnknownClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoClassNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoFieldNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoMethodNode;
-import net.ornithemc.nestedclassfixer.jar.node.proto.ProtoVariableNode;
+import net.ornithemc.caliologist.jar.node.ClassNode;
+import net.ornithemc.caliologist.jar.node.Node;
+import net.ornithemc.caliologist.jar.node.UnknownClassNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoClassNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoFieldNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoMethodNode;
+import net.ornithemc.caliologist.jar.node.proto.ProtoVariableNode;
 
 public class JarFile
 {

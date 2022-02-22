@@ -1,11 +1,11 @@
-package net.ornithemc.nestedclassfixer;
+package net.ornithemc.caliologist;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
-import net.ornithemc.nestedclassfixer.jar.NestedClassFixer;
+import net.ornithemc.caliologist.jar.NestedClassFixer;
 
 import java.io.File;
 
@@ -30,6 +30,7 @@ public class MainWindowController
 
         fixer.readJar();
         fixer.findNestedClassCandidates();
+        System.out.println("break");
     }
 
     @FXML
