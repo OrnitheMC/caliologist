@@ -1,19 +1,14 @@
 package net.ornithemc.caliologist.jar.node.proto;
 
-import net.ornithemc.caliologist.jar.JarFile;
-import net.ornithemc.caliologist.jar.node.ClassNode;
 import net.ornithemc.caliologist.jar.node.FieldNode;
-import net.ornithemc.caliologist.jar.node.desc.TypeDescriptor;
 
 public class ProtoFieldNode extends ProtoNode
 {
     private final String desc;
     private final Object value;
 
-    private FieldNode field;
-
-    public ProtoFieldNode(ProtoClassNode parent, int access, String name, String desc, String signature, Object value) {
-        super(parent, access, name, signature);
+    public ProtoFieldNode(int access, String name, String desc, String signature, Object value) {
+        super(access, name, signature);
 
         this.desc = desc;
         this.value = value;
@@ -30,16 +25,13 @@ public class ProtoFieldNode extends ProtoNode
     }
 
     @Override
-    public FieldNode construct(JarFile jar) {
-        if (field == null) {
-            ProtoClassNode protoParent = parent.asClass();
-            ClassNode parent = protoParent.construct(jar);
-            TypeDescriptor descriptor = TypeDescriptor.construct(desc, jar);
+    public boolean isValidChild(ProtoNode node) {
+        return false;
+    }
 
-            field = new FieldNode(this, parent, access, name, signature, descriptor, value);
-        }
-
-        return field;
+    @Override
+    protected FieldNode construct() {
+        return new FieldNode(this);
     }
 
     public String getDescriptor() {

@@ -11,9 +11,6 @@ import net.ornithemc.caliologist.jar.node.proto.ProtoMethodNode;
 
 public class ClassNode extends Node
 {
-    private ClassNode superClass;
-    private ClassNode[] interfaces;
-
     private final Map<String, FieldNode> fields;
     private final Map<String, MethodNode> methods;
 
@@ -22,8 +19,8 @@ public class ClassNode extends Node
 
     private String simpleName; // used by nested classes
 
-    public ClassNode(ProtoClassNode proto, ClassNode parent, int access, String name, String signature) {
-        super(proto, null, access, name, signature);
+    public ClassNode(ProtoClassNode proto) {
+        super(proto);
 
         this.fields = new HashMap<>();
         this.methods = new HashMap<>();
@@ -33,7 +30,7 @@ public class ClassNode extends Node
     }
 
     @Override
-    public ProtoClassNode getProto() {
+    public ProtoClassNode proto() {
         return proto.asClass();
     }
 
@@ -49,7 +46,7 @@ public class ClassNode extends Node
 
     @Override
     protected boolean isValidParent(Node node) {
-        return node == null || node.isClass();
+        return node == null || super.isValidParent(node);
     }
 
     @Override
@@ -57,13 +54,13 @@ public class ClassNode extends Node
         if (super.addChild(node)) {
             if (node.isField()) {
                 FieldNode field = node.asField();
-                ProtoFieldNode proto = field.getProto();
+                ProtoFieldNode proto = field.proto();
 
                 fields.put(proto.getName(), field);
             }
             if (node.isMethod()) {
                 MethodNode method = node.asMethod();
-                ProtoMethodNode proto = method.getProto();
+                ProtoMethodNode proto = method.proto();
 
                 methods.put(proto.getName() + proto.getDescriptor(), method);
             }
@@ -76,20 +73,7 @@ public class ClassNode extends Node
 
     @Override
     protected boolean isValidChild(Node node) {
-        return !(node instanceof VariableNode);
-    }
-
-    public ClassNode getSuperClass() {
-        return superClass;
-    }
-
-    public ClassNode[] getInterfaces() {
-        return interfaces;
-    }
-
-    public void updateAncestry(ClassNode superClass, ClassNode... interfaces) {
-        this.superClass = superClass;
-        this.interfaces = interfaces;
+        return true;
     }
 
     /**
@@ -152,7 +136,7 @@ public class ClassNode extends Node
 
     private void resetAnonymousClassNames() {
         int i = 0;
-        
+
         for (ClassNode clazz : anonymousClasses) {
             String name = getName() + "$" + i;
             clazz.setName(name);

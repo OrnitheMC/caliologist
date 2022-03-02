@@ -1,6 +1,5 @@
 package net.ornithemc.caliologist.jar.node.proto;
 
-import net.ornithemc.caliologist.jar.JarFile;
 import net.ornithemc.caliologist.jar.node.ClassNode;
 
 public class ProtoClassNode extends ProtoNode
@@ -9,10 +8,8 @@ public class ProtoClassNode extends ProtoNode
     private final String superName;
     private final String[] interfaces;
 
-    private ClassNode clazz;
-
-    public ProtoClassNode(ProtoNode parent, int version, int access, String name, String signature, String superName, String[] interfaces) {
-        super(parent, access, name, signature);
+    public ProtoClassNode(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        super(access, name, signature);
 
         this.version = version;
         this.superName = superName;
@@ -30,19 +27,18 @@ public class ProtoClassNode extends ProtoNode
     }
 
     @Override
-    public ClassNode construct(JarFile jar) {
-        if (clazz == null) {
-            ClassNode parentClass = null;
+    public boolean isValidParent(ProtoNode node) {
+        return node == null || super.isValidParent(node);
+    }
 
-            if (parent != null) {
-                ProtoClassNode protoParent = parent.asClass();
-                parentClass = protoParent.construct(jar);
-            }
+    @Override
+    public boolean isValidChild(ProtoNode node) {
+        return true;
+    }
 
-            clazz = new ClassNode(this, parentClass, access, name, signature);
-        }
-
-        return clazz;
+    @Override
+    protected ClassNode construct() {
+        return new ClassNode(this);
     }
 
     public int getVersion() {

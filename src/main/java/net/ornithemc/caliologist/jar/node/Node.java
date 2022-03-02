@@ -2,7 +2,6 @@ package net.ornithemc.caliologist.jar.node;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import org.objectweb.asm.Opcodes;
@@ -18,34 +17,22 @@ public abstract class Node
 
     private int access;
     private String name;
-    private String signature;
 
-    protected Node(ProtoNode proto, Node parent, int access, String name, String signature) {
+    protected Node(ProtoNode proto) {
         this.proto = proto;
 
-        this.parent = parent;
         this.children = new LinkedHashSet<>();
 
-        this.access = access;
-        this.name = name;
-        this.signature = signature;
-
-        if (this.parent != null) {
-            this.parent.addChild(this);
-        }
+        this.access = this.proto.getAccess();
+        this.name = this.proto.getName();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Node) {
-            Node node = (Node)obj;
-            return Objects.equals(parent, node.parent) && Objects.equals(name, node.name) && Objects.equals(signature, node.signature);
-        }
-
-        return false;
+        return obj instanceof Node && proto.equals(((Node) obj).proto);
     }
 
-    public ProtoNode getProto() {
+    public ProtoNode proto() {
         return proto;
     }
 
@@ -73,14 +60,6 @@ public abstract class Node
         throw new UnsupportedOperationException();
     }
 
-    public boolean isVariable() {
-        return false;
-    }
-
-    public VariableNode asVariable() {
-        throw new UnsupportedOperationException();
-    }
-
     public Node getParent() {
         return parent;
     }
@@ -91,17 +70,25 @@ public abstract class Node
         }
     }
 
-    protected abstract boolean isValidParent(Node node);
+    protected boolean isValidParent(Node node) {
+        return node != null && node.isValidChild(this);
+    }
+
+    protected boolean isValidChild(Node node) {
+        return proto.isValidChild(node.proto);
+    }
 
     public Set<Node> getChildren() {
         return Collections.unmodifiableSet(children);
     }
 
     public boolean addChild(Node node) {
-       return isValidChild(node) && children.add(node);
+        return isValidChild(node) && addChildInternal(node);
     }
 
-    protected abstract boolean isValidChild(Node node);
+    protected boolean addChildInternal(Node node) {
+        return children.add(node);
+    }
 
     protected boolean removeChild(Node node) {
         return children.remove(node);
@@ -203,21 +190,48 @@ public abstract class Node
         return (access & Opcodes.ACC_MODULE) != 0;
     }
 
+    public void setPackagePrivate() {
+        disableAccess(Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE, Opcodes.ACC_PROTECTED);
+    }
+
+    public void setPublic() {
+        enableAccess(Opcodes.ACC_PUBLIC);
+        disableAccess(Opcodes.ACC_PRIVATE, Opcodes.ACC_PROTECTED);
+    }
+
+    public void setPrivate() {
+        enableAccess(Opcodes.ACC_PRIVATE);
+        disableAccess(Opcodes.ACC_PUBLIC, Opcodes.ACC_PROTECTED);
+    }
+
+    public void setProtected() {
+        enableAccess(Opcodes.ACC_PROTECTED);
+        disableAccess(Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE);
+    }
+
+    private void enableAccess(int... opcodes) {
+        for (int opcode : opcodes) {
+            access |= opcode;
+        }
+    }
+
+    private void disableAccess(int... opcodes) {
+        for (int opcode : opcodes) {
+            access &= ~opcode;
+        }
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        if (name != null && isValidName(name)) {
+        if (isValidName(name)) {
             this.name = name;
         }
     }
 
     protected boolean isValidName(String name) {
         return true; // TODO: test for keywords and invalid characters
-    }
-
-    public String getSignature() {
-        return signature;
     }
 }

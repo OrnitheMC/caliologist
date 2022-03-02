@@ -20,8 +20,8 @@ public class Main extends Application
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-window.fxml"));
         fxmlLoader.setController(new MainWindowController(this));
 
-        this.scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Nested Class Fixer");
+        this.scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Caliologist");
         stage.setScene(scene);
         stage.show();
     }
